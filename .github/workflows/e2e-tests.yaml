@@ -26,7 +26,8 @@ jobs:
             --wait
 
       - run: |
-          kubectl apply -k k8s/overlays/kind -n mosquitto
+          ls -all
+          kubectl apply -k ./k8s/overlays/kind -n mosquitto
       #- name: Helm Deploy
       #  uses: vimeda/helm@v1.6.1
       #  with:
