@@ -1,0 +1,6 @@
+images:
+- name: nolte/mosquitto-exporter
+  newTag: kind
+
+bases:
+  - ../../base

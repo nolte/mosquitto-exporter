@@ -1,0 +1,7 @@
+
+commonLabels:
+  exporter: mosquitto
+
+resources:
+- deployment.yaml
+- service.yaml

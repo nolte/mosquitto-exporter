@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mosquitto-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: mosquitto-exporter
+  template:
+    metadata:
+      labels:
+        deployment: mosquitto-exporter
+    spec:
+      containers:
+      - name: mosquitto
+        image: nolte/mosquitto-exporter:v0.6.1
+        ports:
+        - containerPort: 9234
+        env:
+        - name: BROKER_ENDPOINT
+          value: "tcp://mosquitto:1883"

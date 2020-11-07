@@ -39,3 +39,34 @@ GLOBAL OPTIONS:
    --help, -h                      show help
    --version, -v                   print the version
 ```
+
+## Local E2E Tests
+
+```sh
+# Start local Kind Cluster
+
+kind create cluster
+
+#install the Mosquitto chart
+./scripts/install_chart.sh
+
+docker build -t nolte/mosquitto-exporter:kind . 
+
+kind load docker-image nolte/mosquitto-exporter:kind
+
+kubectl apply -k k8s/overlays/kind -n mosquitto
+
+```
+
+## Local Docker build
+
+[](https://github.com/multiarch/qemu-user-static)
+
+```bash
+
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
+
+
+
+```

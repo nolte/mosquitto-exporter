@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: mosquitto-exporter
+spec:
+  selector:
+    deployment: mosquitto-exporter
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 9234
+    targetPort: 9234

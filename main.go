@@ -47,6 +47,8 @@ var (
 	firstMessageReceived = false
 )
 
+var useSplittedConfig bool
+
 func main() {
 	app := cli.NewApp()
 
@@ -74,6 +76,29 @@ func main() {
 			Usage:  "Endpoint for the Mosquitto message broker",
 			EnvVar: "BROKER_ENDPOINT",
 			Value:  "tcp://127.0.0.1:1883",
+		},
+		cli.BoolFlag{
+			Name:        "use-splitted-config",
+			Usage:       "Use the the splitted config parameters (host,port and protocol)",
+			Destination: &useSplittedConfig,
+		},
+		cli.StringFlag{
+			Name:   "endpoint-host",
+			Usage:  "Hostname for the Mosquitto message broker",
+			EnvVar: "BROKER_HOSTNAME",
+			Value:  "",
+		},
+		cli.StringFlag{
+			Name:   "endpoint-port",
+			Usage:  "Port for the Mosquitto message broker connection",
+			EnvVar: "BROKER_PORT",
+			Value:  "1883",
+		},
+		cli.StringFlag{
+			Name:   "endpoint-protocol",
+			Usage:  "Protocol for the Mosquitto message broker (tcp or ssl)",
+			EnvVar: "BROKER_PROTOCOL",
+			Value:  "tcp",
 		},
 		cli.StringFlag{
 			Name:   "bind-address,b",
@@ -121,7 +146,15 @@ func runServer(c *cli.Context) {
 
 	opts := mqtt.NewClientOptions()
 	opts.SetCleanSession(true)
-	opts.AddBroker(c.String("endpoint"))
+
+	var endpoint string
+	if c.Bool("use-splitted-config") {
+		endpoint = fmt.Sprintf("%s://%s:%s", c.String("endpoint-protocol"), c.String("endpoint"), c.String("endpoint"))
+	} else {
+		endpoint = c.String("endpoint")
+	}
+
+	opts.AddBroker(endpoint)
 	opts.SetClientID(fmt.Sprintf("prometheus_mosquitto_exporter_%v", time.Now().Unix()))
 
 	// initializes the "broker_connection_up" metric to 0 (down)
