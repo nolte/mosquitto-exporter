@@ -149,7 +149,7 @@ func runServer(c *cli.Context) {
 
 	var endpoint string
 	if c.Bool("use-splitted-config") {
-		endpoint = fmt.Sprintf("%s://%s:%s", c.String("endpoint-protocol"), c.String("endpoint"), c.String("endpoint"))
+		endpoint = fmt.Sprintf("%s://%s:%s", c.String("endpoint-protocol"), c.String("endpoint-host"), c.String("endpoint-port"))
 	} else {
 		endpoint = c.String("endpoint")
 	}
