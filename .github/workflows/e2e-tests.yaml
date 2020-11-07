@@ -7,7 +7,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
+      - uses: azure/setup-kubectl@v1
+        id: install
       - uses: azure/setup-helm@v1
         with:
           version: 'v3.4.0' # default is latest stable
@@ -18,11 +19,14 @@ jobs:
       - run: |
           helm install \
             mosquitto \
+            mosquitto \
             -n mosquitto \
             --create-namespace \
             --repo https://k8s-at-home.com/charts/ \
-            --generate-name
+            --wait
 
+      - run: |
+          kubectl apply -k k8s/overlays/kind -n mosquitto
       #- name: Helm Deploy
       #  uses: vimeda/helm@v1.6.1
       #  with:
