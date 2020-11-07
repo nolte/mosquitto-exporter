@@ -17,7 +17,7 @@ jobs:
           namespace: 'default'
           repo: https://k8s-at-home.com/charts/
           repo-alias: k8sAtHome
-          helm: helm3
+          #helm: helm3
           chart: 'k8sAtHome/mosquitto'
           token: '${{ github.token }}'
           values: |
