@@ -21,4 +21,4 @@ jobs:
           values: |
             name: foobar
         env:
-          KUBECONFIG_FILE: '${{ home }}/.kube/config'
+          KUBECONFIG_FILE: "$HOME/.kube/config"
