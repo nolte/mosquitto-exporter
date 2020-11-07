@@ -16,8 +16,12 @@ jobs:
         uses: helm/kind-action@v1.0.0
 
       - run: |
-          helm repo add k8s-at-home https://k8s-at-home.com/charts/
-          helm install k8s-at-home/mosquitto -n mosquitto --create-namespace
+          helm install \
+            mosquitto \
+            -n mosquitto \
+            --create-namespace \
+            --repo https://k8s-at-home.com/charts/ \
+            --generate-name
 
       #- name: Helm Deploy
       #  uses: vimeda/helm@v1.6.1
