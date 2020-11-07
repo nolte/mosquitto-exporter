@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      
+
       - uses: azure/setup-helm@v1
         with:
           version: 'v3.4.0' # default is latest stable
@@ -15,17 +15,21 @@ jobs:
       - name: Create k8s Kind Cluster
         uses: helm/kind-action@v1.0.0
 
-      - name: Helm Deploy
-        uses: vimeda/helm@v1.6.1
-        with:
-          release: 'mosquitto'
-          namespace: 'default'
-          repo: https://k8s-at-home.com/charts/
-          repo-alias: k8sAtHome
-          #helm: helm3
-          chart: 'k8sAtHome/mosquitto'
-          token: '${{ github.token }}'
-          #values: |
-          #  name: foobar
-        env:
-          KUBECONFIG_FILE: "$HOME/.kube/config"
+      - run: |
+          helm repo add k8s-at-home https://k8s-at-home.com/charts/
+          helm install k8s-at-home/mosquitto -n mosquitto --create-namespace
+
+      #- name: Helm Deploy
+      #  uses: vimeda/helm@v1.6.1
+      #  with:
+      #    release: 'mosquitto'
+      #    namespace: 'default'
+      #    repo: https://k8s-at-home.com/charts/
+      #    repo-alias: k8sAtHome
+      #    helm: ${{ steps.install.outputs.helm-path }} 
+      #    chart: 'k8sAtHome/mosquitto'
+      #    token: '${{ github.token }}'
+      #    #values: |
+      #    #  name: foobar
+      #  env:
+      #    KUBECONFIG_FILE: "$HOME/.kube/config"
