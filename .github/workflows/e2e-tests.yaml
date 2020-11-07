@@ -16,7 +16,9 @@ jobs:
           release: 'mosquitto'
           namespace: 'default'
           repo: https://k8s-at-home.com/charts/
-          chart: 'mosquitto'
+          repo-alias: k8sAtHome
+          helm: helm3
+          chart: 'k8sAtHome/mosquitto'
           token: '${{ github.token }}'
           values: |
             name: foobar
